@@ -160,6 +160,8 @@ export default function MainApp() {
   const [personalityAnswers, setPersonalityAnswers] = React.useState<string[]>([])
   const [expertiseAnswers, setExpertiseAnswers] = React.useState<string[]>([])
   const [assignedRole, setAssignedRole] = React.useState<string>("")
+  const [loading, setLoading] = React.useState(false)
+  const [roleSuggestions, setRoleSuggestions] = React.useState<string[]>([])
 
   // Modül sırası
   const MODULES = [
@@ -203,11 +205,17 @@ export default function MainApp() {
           <h1 className="text-3xl font-bold mb-2 text-center text-primary font-sans">{t('onboardingTitle')}</h1>
           <p className="text-gray-500 mb-8 text-center text-base font-sans">{t('onboardingSubtitle')}</p>
           <div className="w-full flex flex-col gap-4 mb-6">
+            <div className="text-sm font-semibold text-primary mb-1 text-center">Aday Girişi</div>
             <Button variant="outline" className="w-full flex gap-2 items-center justify-center rounded-lg border-primary text-primary font-semibold py-3 text-base hover:bg-accent/60 transition" onClick={handleEmailLogin}><Mail className="w-5 h-5"/>{t('signUpWithEmail')}</Button>
             <Button variant="outline" className="w-full flex gap-2 items-center justify-center rounded-lg border-primary text-primary font-semibold py-3 text-base hover:bg-accent/60 transition" onClick={handleGoogleLogin}><img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" className="w-5 h-5"/>{t('continueWithGoogle')}</Button>
             <Button variant="outline" className="w-full flex gap-2 items-center justify-center rounded-lg border-primary text-primary font-semibold py-3 text-base hover:bg-accent/60 transition" onClick={handleLinkedInLogin}><Linkedin className="w-5 h-5"/>{t('continueWithLinkedIn')}</Button>
           </div>
-          <div className="w-full flex justify-center mb-2"><span className="text-xs text-gray-400 font-sans">{t('or')}</span></div>
+          <div className="w-full flex items-center gap-2 mb-4">
+            <div className="flex-1 h-px bg-gray-200" />
+            <span className="text-xs text-gray-400 font-sans">veya</span>
+            <div className="flex-1 h-px bg-gray-200" />
+          </div>
+          <Button variant="secondary" className="w-full rounded-lg font-semibold py-3 text-base bg-primary text-white hover:bg-primary/90 transition mb-4" onClick={()=>window.location.href='/admin'}>Firma olarak giriş yap</Button>
           <LanguageSwitcher currentLanguage={language} onLanguageChange={setLanguage} />
         </div>
       </div>
@@ -245,3 +253,11 @@ const logoSvg = (
     <circle cx="24" cy="20" r="2" fill="#3BA17C"/>
   </svg>
 )
+
+React.useEffect(() => {
+  setLoading(true)
+  setTimeout(() => {
+    setRoleSuggestions([...]) // demo veriler
+    setLoading(false)
+  }, 1200)
+}, [personalityAnswers, expertiseAnswers, language, t])
